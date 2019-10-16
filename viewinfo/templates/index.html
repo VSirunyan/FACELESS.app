@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+        integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+        crossorigin="">
+    </script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <div id="mapid" style="height: 500px;"></div>
+    <button type="submit" onclick="getAndViewWifis()">View Wifi's map</button>
+
+    <script>
+        var map = L.map('mapid').setView([40.18, 44.51], 13);
+        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+                    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                    maxZoom: 18,
+                    id: 'mapbox.streets',
+                    accessToken: 'pk.eyJ1IjoidmFoYWduc2lydW55YW4iLCJhIjoiY2sxdDZsbGpxMDEyczNobjFmcnhhbm5xMyJ9.-kxWGW1QMpWn3M7_A8QEhQ'}).addTo(map);
+
+        let points=[];
+        let markers=[];
+
+        function onMapClick(e) {
+            points.push(e.latlng);
+            let marker = L.marker(e.latlng).addTo(map);
+            markers.push(marker);
+        }
+
+        function getAndViewWifis() {
+            $.ajax({url:"getInfo",
+                    type:"GET",
+                        success:function(result) {
+                            wifiList=result.wifi_list
+                            for(let i=0; i<wifiList.length; i++) {
+                                let marker = L.marker([wifiList[i].lat, wifiList[i].lng]).addTo(map);
+                                markers.push(marker);
+                                if (wifiList[i].type === "Open") {
+                                    let circle = L.circle([wifiList[i].lat, wifiList[i].lng], {color: 'red',fillColor: '#f03',fillOpacity: 0.5,radius: 20}).addTo(map);
+                                }
+                                if (wifiList[i].type === "Private") {
+                                    let circle = L.circle([wifiList[i].lat, wifiList[i].lng], {color: 'blue',fillColor: 'blue',fillOpacity: 0.5,radius: 20}).addTo(map);
+                                }
+                            }
+                        }
+                    });
+        }
+
+        map.on('click', onMapClick);
+    </script>
+  </body>
+</html>
