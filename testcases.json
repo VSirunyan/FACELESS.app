@@ -1,0 +1,40 @@
+[
+  {
+    "latitude": "10",
+    "longitude": "20",
+    "time": "21:30 01/06/2019",
+    "wifi": [
+      {
+        "type": "A",
+        "diap": "3 GHZ",
+        "max_channels_count": 40,
+        "mac_address": "00:0a:95:9d:68:16",
+        "ip_address": "192.168.0.203",
+        "power": 0.7
+      }
+    ]
+  },
+  {
+    "latitude": "34",
+    "longitude": "46",
+    "time": "22:00 01/06/2019",
+    "wifi": [
+      {
+        "type": "A",
+        "diap": "2.6 GHZ",
+        "max_channels_count": 30,
+        "mac_address": "00:8a:65:9c:65:16",
+        "ip_address": "192.168.0.205",
+        "power": 0.3
+      },
+      {
+        "type": "B",
+        "diap": "3 GHZ",
+        "max_channels_count": 20,
+        "mac_address": "00:8a:9a:9d:62:1d",
+        "ip_address": "192.168.0.206",
+        "power": 0.4
+      }
+    ]
+  }
+]
