@@ -18,12 +18,16 @@ def main():
 
     for testcase in testcases:
         data_package = json.dumps(testcase)
-        s.sendall(data_package)
+        s.sendall(data_package.encode())
 
-        print 'Received', repr(data_package)
+        print('Received', repr(data_package))
 
         status = s.recv(1024)
         if status != "OK":
             raise Exception("No response from server")
 
     s.close()
+
+
+if __name__ == "__main__":
+    main()

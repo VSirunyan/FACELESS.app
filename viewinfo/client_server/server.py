@@ -1,7 +1,19 @@
 import os
+import sys
 import json
 import socket
-from viewinfo.models import WifiDatabase
+
+views_imported = False
+try:
+    ROOT_DIRECTORY = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    sys.path.append(ROOT_DIRECTORY)
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'clones.settings')
+    import django
+    django.setup()
+    from viewinfo.models import WifiDatabase
+    views_imported = True
+except Exception:
+    pass
 
 
 class Constants:
@@ -112,3 +124,7 @@ def start_server():
         conn.sendall("OK")
 
     conn.close()
+
+
+if __name__ == '__main__':
+    start_server()

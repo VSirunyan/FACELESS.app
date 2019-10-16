@@ -1,11 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from viewinfo.models import WifiDatabase
-from viewinfo.client_server.server import Constants, start_server
-from viewinfo.client_server import client
-
-start_server()
-client.main()
+from viewinfo.client_server.server import Constants
 
 
 def index(request):
