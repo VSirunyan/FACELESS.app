@@ -1,6 +1,5 @@
 import socket
 import json
-import time
 import os
 
 
@@ -20,8 +19,12 @@ def main():
     for testcase in testcases:
         data_package = json.dumps(testcase)
         s.sendall(data_package)
+
         print 'Received', repr(data_package)
-        time.sleep(3)
+
+        status = s.recv(1024)
+        if status != "OK":
+            raise Exception("No response from server")
 
     s.close()
 

@@ -99,6 +99,8 @@ def start_server():
         with open(db_file_path, "w") as db_file:
             json.dump(database, db_file, indent=1)
 
+        conn.sendall("OK")
+
     conn.close()
 
 
