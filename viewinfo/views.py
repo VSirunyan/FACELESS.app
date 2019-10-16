@@ -1,12 +1,19 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+from viewinfo.models import WifiDatabase
+from viewinfo.client_server.server import Constants, start_server
+from viewinfo.client_server import client
+
+start_server()
+client.main()
 
 
 def index(request):
     return render(request, "index.html")
 
+
 def getInfo(request):
-    wifisList=[{
+    wifis_list=[{
         "max_channels_count": 40,
         "diap": 2.4,
         "power": 0.7,
@@ -28,4 +35,21 @@ def getInfo(request):
         "mac_addr": "aa:aa:aa:aa:aa",
         "type": "Private"
     }]
-    return JsonResponse({"wifi_list":wifisList})
+    return JsonResponse({"wifi_list": wifis_list})
+
+
+def get_wifis(request):
+    wifis = WifiDatabase.objects.all()
+    all_wifis = []
+    for wifi in wifis:
+        conf = {Constants.LATITUDE: wifi.latitude,
+                Constants.LONGITUDE: wifi.longitude,
+                Constants.TIME: wifi.time,
+                Constants.TYPE: wifi.type,
+                Constants.DIAP: wifi.diap,
+                Constants.CHANNELS: wifi.max_channels,
+                Constants.MAC: wifi.mac_address,
+                Constants.IP: wifi.ip_address,
+                Constants.POWER: wifi.power}
+        all_wifis.append(conf)
+    return JsonResponse({"wifi_list": all_wifis})
