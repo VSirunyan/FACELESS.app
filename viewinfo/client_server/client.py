@@ -18,7 +18,7 @@ def main():
 
     for testcase in testcases:
         data_package = json.dumps(testcase)
-        s.sendall(data_package.encode())
+        s.sendall(data_package)
 
         print('Received', repr(data_package))
 

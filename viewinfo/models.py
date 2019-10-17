@@ -6,7 +6,7 @@ class WifiDatabase(models.Model):
     longitude = models.FloatField()
     time = models.TimeField()
     type = models.CharField(max_length=100)
-    diap = models.FloatField()
+    diap = models.CharField(max_length=100)
     channels = models.IntegerField()
     mac = models.CharField(max_length=100)
     ip = models.CharField(max_length=100)

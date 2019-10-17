@@ -5,15 +5,15 @@ import socket
 
 views_imported = False
 try:
-    ROOT_DIRECTORY = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    ROOT_DIRECTORY = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     sys.path.append(ROOT_DIRECTORY)
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'clones.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'faceless.settings')
     import django
     django.setup()
     from viewinfo.models import WifiDatabase
     views_imported = True
-except Exception:
-    pass
+except Exception as ex:
+    print(ex)
 
 
 class Constants:
@@ -91,15 +91,6 @@ def parse_data(data):
 
 
 def start_server():
-    script_dir = os.path.dirname(__file__)
-    db_file_path = os.path.join(script_dir, "database.json")
-
-    try:
-        with open(db_file_path, "r") as db_content:
-            database = json.load(db_content)
-    except:
-        database = []
-
     host = '127.0.0.1'
     port = 55555
 
@@ -112,14 +103,13 @@ def start_server():
 
     while 1:
         data_package = conn.recv(1024)
+        if not data_package:
+            continue
         data = json.loads(data_package, encoding='ascii')
 
         wifis = parse_data(data)
         for wifi in wifis:
             wifi.add_new_wifi()
-
-        with open(db_file_path, "w") as db_file:
-            json.dump(database, db_file, indent=1)
 
         conn.sendall("OK")
 

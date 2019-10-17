@@ -35,18 +35,18 @@
         }
 
         function getAndViewWifis() {
-            $.ajax({url:"getInfo",
+            $.ajax({url:"get_wifis",
                     type:"GET",
                         success:function(result) {
                             wifiList=result.wifi_list
                             for(let i=0; i<wifiList.length; i++) {
-                                let marker = L.marker([wifiList[i].lat, wifiList[i].lng]).addTo(map);
+                                let marker = L.marker([wifiList[i].latitude, wifiList[i].longitude]).addTo(map);
                                 markers.push(marker);
                                 if (wifiList[i].type === "Open") {
-                                    let circle = L.circle([wifiList[i].lat, wifiList[i].lng], {color: 'red',fillColor: '#f03',fillOpacity: 0.5,radius: 20}).addTo(map);
+                                    let circle = L.circle([wifiList[i].latitude, wifiList[i].longitude], {color: 'red',fillColor: '#f03',fillOpacity: 0.5,radius: 20}).addTo(map);
                                 }
                                 if (wifiList[i].type === "Private") {
-                                    let circle = L.circle([wifiList[i].lat, wifiList[i].lng], {color: 'blue',fillColor: 'blue',fillOpacity: 0.5,radius: 20}).addTo(map);
+                                    let circle = L.circle([wifiList[i].latitude, wifiList[i].longitude], {color: 'blue',fillColor: 'blue',fillOpacity: 0.5,radius: 20}).addTo(map);
                                 }
                             }
                         }
